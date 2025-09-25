@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+<h1>{{ title }}</h1>
+
+<form method="post" novalidate>
+    {% csrf_token %}
+
+    <!-- Дата -->
+    <div class="mb-3">
+        {{ form.date.label_tag }}
+        {{ form.date }}
+    </div>
+
+    <!-- Статус -->
+    <div class="mb-3">
+        {{ form.status.label_tag }}
+        {{ form.status }}
+    </div>
+
+    <!-- Тип -->
+    <div class="mb-3">
+        {{ form.type.label_tag }}
+        {{ form.type }}
+    </div>
+
+    <!-- Категория -->
+    <div class="mb-3">
+        <label for="category-select">Категория</label>
+        <select name="category" class="form-select" id="category-select" required>
+            <option value="">Выберите категорию</option>
+            {% for c in categories %}
+                <option value="{{ c.id }}" data-type-id="{{ c.type.id }}"
+                    {% if selected_category == c.id %}selected{% endif %}>
+                    {{ c.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Подкатегория -->
+    <div class="mb-3">
+        <label for="subcategory-select">Подкатегория</label>
+        <select name="subcategory" class="form-select" id="subcategory-select" required>
+            <option value="">Выберите подкатегорию</option>
+            {% for sc in subcategories %}
+                <option value="{{ sc.id }}" data-category-id="{{ sc.category.id }}"
+                    {% if selected_subcategory == sc.id %}selected{% endif %}>
+                    {{ sc.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Сумма -->
+    <div class="mb-3">
+        {{ form.amount.label_tag }}
+        {{ form.amount }}
+    </div>
+
+    <!-- Комментарий -->
+    <div class="mb-3">
+        {{ form.comment.label_tag }}
+        {{ form.comment }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'dds_app:index' %}" class="btn btn-secondary">Отмена</a>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const typeSelect = document.getElementById("type-select");
+    const categorySelect = document.getElementById("category-select");
+    const subcategorySelect = document.getElementById("subcategory-select");
+
+    // Фильтрация категорий по типу
+    function filterCategories() {
+        const typeId = typeSelect.value;
+        for (let option of categorySelect.options) {
+            if (!option.value) continue;
+            option.style.display = (option.dataset.typeId === typeId) ? "" : "none";
+        }
+
+        // Сброс выбранной категории и подкатегории, если не соответствует типу
+        if (!categorySelect.selectedOptions[0].value || categorySelect.selectedOptions[0].dataset.typeId !== typeId) {
+            categorySelect.value = "";
+            filterSubcategories();
+        }
+    }
+
+    // Фильтрация подкатегорий по категории
+    function filterSubcategories() {
+        const categoryId = categorySelect.value;
+        for (let option of subcategorySelect.options) {
+            if (!option.value) continue;
+            option.style.display = (option.dataset.categoryId === categoryId) ? "" : "none";
+        }
+
+        // Сброс выбранной подкатегории, если не соответствует категории
+        if (!subcategorySelect.selectedOptions[0].value || subcategorySelect.selectedOptions[0].dataset.categoryId !== categoryId) {
+            subcategorySelect.value = "";
+        }
+    }
+
+    // Инициализация фильтров при загрузке страницы
+    filterCategories();
+    filterSubcategories();
+
+    // Обработчики изменений
+    typeSelect.addEventListener("change", filterCategories);
+    categorySelect.addEventListener("change", filterSubcategories);
+});
+</script>
+
+</body>
+</html>

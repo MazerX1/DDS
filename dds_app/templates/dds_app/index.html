@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ДДС - Главная</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+<h1>Движение денежных средств (ДДС)</h1>
+
+<a href="{% url 'dds_app:add' %}" class="btn btn-success mb-3">Добавить запись</a>
+<a href="{% url 'dds_app:catalog' %}" class="btn btn-primary mb-3">Справочники</a>
+
+<form method="get" class="row g-3 mb-3">
+    <div class="col-auto">
+        <input type="date" name="date_from" class="form-control" placeholder="Дата от">
+    </div>
+    <div class="col-auto">
+        <input type="date" name="date_to" class="form-control" placeholder="Дата до">
+    </div>
+    <div class="col-auto">
+        <select name="status" class="form-select">
+            <option value="">Статус</option>
+            {% for s in statuses %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="type" class="form-select">
+            <option value="">Тип</option>
+            {% for t in types %}<option value="{{ t.id }}">{{ t.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="category" class="form-select">
+            <option value="">Категория</option>
+            {% for c in categories %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="subcategory" class="form-select">
+            <option value="">Подкатегория</option>
+            {% for sc in subcategories %}<option value="{{ sc.id }}">{{ sc.name }}</option>{% endfor %}
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-info">Фильтровать</button>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Тип</th>
+            <th>Категория</th>
+            <th>Подкатегория</th>
+            <th>Сумма</th>
+            <th>Комментарий</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cf in cashflows %}
+        <tr>
+            <td>{{ cf.date }}</td>
+            <td>{{ cf.status.name }}</td>
+            <td>{{ cf.type.name }}</td>
+            <td>{{ cf.category.name }}</td>
+            <td>{{ cf.subcategory.name }}</td>
+            <td>{{ cf.amount }}</td>
+            <td>{{ cf.comment }}</td>
+            <td>
+                <a href="{% url 'dds_app:edit' cf.id %}" class="btn btn-sm btn-warning">Редактировать</a>
+                <a href="{% url 'dds_app:delete' cf.id %}" class="btn btn-sm btn-danger">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
