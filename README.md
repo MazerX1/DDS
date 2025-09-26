@@ -6,7 +6,7 @@
 ### 1. Установка зависимостей
 1. Установите **Python 3.10+** и **pip**.  
 2. Клонируйте репозиторий:
-   git clone [<ссылка-на-репозиторий>](https://github.com/MazerX1/DDS)
+   git clone (https://github.com/MazerX1/DDS)
    cd DDS
 3. Создайте виртуальное окружение:
    python -m venv venv
