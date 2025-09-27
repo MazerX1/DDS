@@ -5,11 +5,19 @@ from django.db import models
 class Status(models.Model):
     name = models.CharField("Название статуса", max_length=50)
 
+    class Meta:
+        verbose_name = "Статус"
+        verbose_name_plural = "Статусы"
+
     def __str__(self):
         return self.name
 
 class Type(models.Model):
     name = models.CharField("Тип", max_length=50)
+
+    class Meta:
+        verbose_name = "Тип"
+        verbose_name_plural = "Типы"
 
     def __str__(self):
         return self.name
@@ -29,12 +37,12 @@ class SubCategory(models.Model):
         return f"{self.name} ({self.category.name})"
 
 class CashFlow(models.Model):
-    date = models.DateField(default=datetime.date.today)
-    status = models.ForeignKey(Status, on_delete=models.PROTECT)
-    type = models.ForeignKey(Type, on_delete=models.PROTECT)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    subcategory = models.ForeignKey(SubCategory, on_delete=models.PROTECT)
-    amount = models.DecimalField("Сумма", max_digits=12, decimal_places=2)
+    date = models.DateField("Дата")
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name="Статус")
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, verbose_name="Тип")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name="Подкатегория")
+    amount = models.DecimalField("Сумма", max_digits=10, decimal_places=2)
     comment = models.TextField("Комментарий", blank=True)
 
     def save(self, *args, **kwargs):
