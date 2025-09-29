@@ -1,0 +1,79 @@
+/* Общие стили */
+body {
+    background-color: #f8f9fa;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #333;
+}
+
+/* Заголовки */
+h2 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.3rem;
+}
+
+h4 {
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #495057;
+}
+
+/* Таблицы */
+.table {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* Кнопки действий */
+.btn {
+    border-radius: 0.4rem;
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background-color: #198754;
+    border: none;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #212529;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+/* Контейнер */
+.container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
